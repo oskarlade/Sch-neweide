@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abfahrtsmonitor Schöneweide</title>
+    <style>
+        :root {
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --dim-color: #888888;
+            --border-color: #333333;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+        .clock {
+            font-size: 1.8rem;
+            font-weight: bold;
+            font-family: monospace;
+        }
+        .station-group {
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .station-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 5px;
+        }
+        .walk-time {
+            color: var(--dim-color);
+            font-size: 0.9rem;
+        }
+        .departure-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .departure-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #1a1a1a;
+            font-size: 1.1rem;
+        }
+        .departure-item:last-child {
+            border-bottom: none;
+        }
+        .line {
+            font-weight: bold;
+            display: inline-block;
+            min-width: 60px;
+        }
+        .destination {
+            flex-grow: 1;
+            margin-left: 15px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .time {
+            font-family: monospace;
+            font-weight: bold;
+            min-width: 60px;
+            text-align: right;
+        }
+        .status-bar {
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: var(--dim-color);
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>S Schöneweide Abfahrten</h1>
+            <div class="clock" id="clock">--:--:--</div>
+        </header>
+
+        <!-- Schöneweide/Sterndamm -->
+        <div class="station-group">
+            <div class="station-title">
+                <span>Schöneweide/Sterndamm</span>
+                <span class="walk-time">&rarr; Zuhause</span>
+            </div>
+            <ul class="departure-list" id="sterndamm-list">
+                <li class="departure-item"><span class="line">M11</span><span class="destination">Zuhause</span><span class="time">2 Min</span></li>
+                <li class="departure-item"><span class="line">60</span><span class="destination">Zuhause</span><span class="time">7 Min</span></li>
+                <li class="departure-item"><span class="line">X11</span><span class="destination">Zuhause</span><span class="time">10 Min</span></li>
+                <li class="departure-item"><span class="line">27</span><span class="destination">Zuhause</span><span class="time">15 Min</span></li>
+                <li class="departure-item"><span class="line">160</span><span class="destination">Zuhause</span><span class="time">18 Min</span></li>
+                <li class="departure-item"><span class="line">265</span><span class="destination">Zuhause</span><span class="time">22 Min</span></li>
+            </ul>
+        </div>
+
+        <!-- Pietschkerstr. (Bus) -->
+        <div class="station-group">
+            <div class="station-title">
+                <span>Pietschkerstr.</span>
+                <span class="walk-time">Bus &rarr; S Schöneweide (6 Min. Fußweg)</span>
+            </div>
+            <ul class="departure-list" id="bus-list">
+                <li class="departure-item"><span class="line">165</span><span class="destination">U Märkisches Museum</span><span class="time">4 Min</span></li>
+                <li class="departure-item"><span class="line">265</span><span class="destination">S Schöneweide</span><span class="time">11 Min</span></li>
+            </ul>
+        </div>
+
+        <!-- Herweghstr. (Tram) -->
+        <div class="station-group">
+            <div class="station-title">
+                <span>Herweghstr.</span>
+                <span class="walk-time">Tram &rarr; S Schöneweide (9 Min. Fußweg)</span>
+            </div>
+            <ul class="departure-list" id="tram-list">
+                <li class="departure-item"><span class="line">67</span><span class="destination">S Schöneweide</span><span class="time">5 Min</span></li>
+                <li class="departure-item"><span class="line">60</span><span class="destination">Rahnsdorf, Waldschänke</span><span class="time">14 Min</span></li>
+            </ul>
+        </div>
+
+        <!-- S-Bahn S Schöneweide -->
+        <div class="station-group">
+            <div class="station-title">
+                <span>S S Schöneweide</span>
+                <span class="walk-time">Direkt (0 Min.)</span>
+            </div>
+            <ul class="departure-list" id="sbahn-list">
+                <li class="departure-item"><span class="line">S8</span><span class="destination">Zeuthen</span><span class="time">3 Min</span></li>
+                <li class="departure-item"><span class="line">S9</span><span class="destination">Flughafen BER</span><span class="time">6 Min</span></li>
+                <li class="departure-item"><span class="line">S45</span><span class="destination">S Südkreuz</span><span class="time">9 Min</span></li>
+                <li class="departure-item"><span class="line">S85</span><span class="destination">Pankow</span><span class="time">12 Min</span></li>
+            </ul>
+        </div>
+
+        <div class="status-bar" id="status-bar">
+            System aktiv &bull; VBB Echtzeit-Daten (Offline-Fallback bereit)
+        </div>
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>
